@@ -6,10 +6,21 @@ format:
   html:
     toc: true
 ---
+
 ## Summary
+
 This article introduces symbolic links and how they can help in handling files particularly data files in conjunction with a coding environment.
 
+## Introduction
 
-## Motivation
-Often times when working with data files they are located on a certain location on your PC. When 
+Files on your computer are located in a certain location or path that generally looks like this `somedirectory/file.csv` with Unix systems using the forward slash and windows using the backslash. In a coding context when working with data we might reference the data file in the following manner:
+
+```{r}
+#| eval: false
+my_data <- read_my_data("filepath/to/my/data/my_data.csv")
+
+```
+
+
+
 
