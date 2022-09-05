@@ -21,6 +21,10 @@ my_data <- read_my_data("filepath/to/my/data/my_data.csv")
 
 ```
 
+Where `"filepath/to/my/data/my_data.csv"` is the file path to a particular csv file. The small issue with writing code in this fashion is that sometimes file paths can be very long and not robust for other users to utilize the code.
+
+
+
 
 
 
