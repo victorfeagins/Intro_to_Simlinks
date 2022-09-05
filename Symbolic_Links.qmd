@@ -1,0 +1,15 @@
+---
+title: "Symbolic Links"
+editor: source
+author: Victor Feagins
+format: 
+  html:
+    toc: true
+---
+## Summary
+This article introduces symbolic links and how they can help in handling files particularly data files in conjunction with a coding environment.
+
+
+## Motivation
+Often times when working with data files they are located on a certain location on your PC. When 
+
