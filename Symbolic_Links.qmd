@@ -23,8 +23,19 @@ my_data <- read_my_data("filepath/to/my/data/my_data.csv")
 
 Where `"filepath/to/my/data/my_data.csv"` is the file path to a particular csv file. The small issue with writing code in this fashion is that sometimes file paths can be very long and not robust for other users to utilize the code.
 
+## Intro Symbolic Links
 
+One solutions to reducing long and overly complicated file path is to create symbolic links. Symbolic links act as short cuts to the location of another file.
 
-
-
+```{mermaid}
+flowchart TB
+  dir --> dirA
+  dirA --> dirA1
+  dirA1 --> mydata.csv
+  dir --> dirB
+  dirB --> ghost(mydata.csv)
+  style ghost stroke-dasharray: 5 5
+  dirB --> mycode
+  ghost --- |symbolic link| mydata.csv
+```
 
