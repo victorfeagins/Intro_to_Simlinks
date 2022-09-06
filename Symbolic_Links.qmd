@@ -161,3 +161,28 @@ ln -s dir/dirA dir/dirB/RawData
 To see documentation of `ln` type `ln --help` in the command prompt
 :::
 
+## Some Use Cases
+### Moving data without moving data
+If you have a lot of data files or the data is shared with different projects you may not want to copy or move the data to where your project is located.
+
+```{mermaid}
+%%| label: fig-MovingFiles
+%%| fig-cap: |
+%%|   Symbolic link to data directory
+flowchart TB
+  subgraph p2 [DataDir]
+  datafiles
+  end
+ 
+  subgraph p1 [Project]
+  direction TB
+  workingdir --> mycode & version_control & DataDir(DataDir)
+  
+  style DataDir stroke-dasharray: 5 5
+  end
+  DataDir ---|symbolic link| p2
+```
+
+
+
+
