@@ -13,15 +13,24 @@ This article introduces symbolic links and how they can help in handling files p
 
 ## Introduction
 
-Files on your computer are located in a certain location or path that generally looks like this `somedirectory/file.csv` with Unix systems using the forward slash and windows using the backslash. In a coding context when working with data we might reference the data file in the following manner:
+Files and directories on your computer are located in a certain location or path that generally looks like this `somedirectory/file.csv`and form a hierarchical tree:
+```{mermaid}
+flowchart TB
+  dir --> dirA
+  dirA --> dirA1
+  dirA1 --> mydata.csv
+  dir --> dirB
+  dirB --> mycode
+```
 
+In a coding context when working with data we might reference the data file in the following manner:
 ```{r}
 #| eval: false
-my_data <- read_my_data("filepath/to/my/data/my_data.csv")
+my_data <- read.csv("dir/dirA/dirA1/mydata.csv")
 
 ```
 
-Where `"filepath/to/my/data/my_data.csv"` is the file path to a particular csv file. The small issue with writing code in this fashion is that sometimes file paths can be very long and not robust for other users to utilize the code.
+Where `"dir/dirA/dirA1/mydata.csv"` is the file path to a particular csv file. The small issue with writing code in this fashion is that sometimes file paths can be very long and not robust for other users to utilize the code.
 
 ## Intro Symbolic Links
 
@@ -38,4 +47,6 @@ flowchart TB
   dirB --> mycode
   ghost --- |symbolic link| mydata.csv
 ```
+
+Looking at the diagram above we can see that mydata.csv file located at `"dir/dirA/dirA1/mydata.csv"` can also be access the same file with the path `"dir/dirB/mydata.csv"`
 
