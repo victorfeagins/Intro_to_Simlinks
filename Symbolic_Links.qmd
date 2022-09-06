@@ -97,3 +97,43 @@ flowchart TB
   style ghost2 stroke-dasharray: 5 5
   dirB --> mycode
 ```
+
+In @fig-DirLink we see that the RawData directory is linked with dirA and hence shares the children files.
+
+## How to do a symbolic link
+
+Doing a symbolic link will depend on your operating system:
+
+::: {.panel-tabset}
+## Windows
+Using `mklink` command with administrator privileges from command terminal
+```{r}
+#| eval: false
+mklink [/D] Link Target
+```
+Link: where the link will be
+Target: What are we linking
+
+### File Example
+This command would produce the results seen in @fig-FileLink
+```{r}
+#| eval: false
+mklink dir/dirB/mydata.csv dir/dirA/dirA1/mydata.csv
+```
+
+### Directory Example
+This command would produce the results seen in @fig-DirLink note using the /D option to mean linking a directory
+```{r}
+#| eval: false
+mklink /D dir/dirB/RawData dir/dirA
+```
+
+Typing in `mklink` in the windows command prompt will give you the documentation of the command
+
+## Unix/Mac
+Using the `ln` command
+
+
+
+:::
+
