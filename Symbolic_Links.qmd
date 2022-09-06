@@ -106,34 +106,58 @@ Doing a symbolic link will depend on your operating system:
 
 ::: {.panel-tabset}
 ## Windows
-Using `mklink` command with administrator privileges from command terminal
+Using `mklink` command in command terminal with administrator privileges
 ```{r}
 #| eval: false
-mklink [/D] Link Target
+mklink [/D] [destination] [source]
 ```
-Link: where the link will be
-Target: What are we linking
+* `\D` option to link a directory. By default links a file
+* Destination: location of where the link will be
+* Source: location where the file or directory being linked is
+
 
 ### File Example
 This command would produce the results seen in @fig-FileLink
 ```{r}
 #| eval: false
-mklink dir/dirB/mydata.csv dir/dirA/dirA1/mydata.csv
+mklink "dir\dirB\mydata.csv" "dir\dirA\dirA1\mydata.csv"
 ```
 
 ### Directory Example
 This command would produce the results seen in @fig-DirLink note using the /D option to mean linking a directory
 ```{r}
 #| eval: false
-mklink /D dir/dirB/RawData dir/dirA
+mklink /D "dir\dirB\RawData" "dir\dirA"
 ```
 
 Typing in `mklink` in the windows command prompt will give you the documentation of the command
 
 ## Unix/Mac
-Using the `ln` command
+Using `ln` command in the command terminal
+```{r}
+#| eval: false
+ln [-s] [source] [destination]
+```
+
+* `-s` option will create a symbolic link
+* Source: path of file or directory being linked
+* Destination: location of where the link will be
 
 
+### File Example
+This command would produce the results seen in @fig-FileLink
+```{r}
+#| eval: false
+ln -s dir/dirA/dirA1/mydata.csv dir/dirB/mydata.csv
+```
 
+### Directory Example
+This command would produce the results seen in @fig-DirLink
+```{r}
+#| eval: false
+ln -s dir/dirA dir/dirB/RawData 
+```
+
+To see documentation of `ln` type `ln --help` in the command prompt
 :::
 
