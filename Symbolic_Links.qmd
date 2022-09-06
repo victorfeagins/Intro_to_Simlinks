@@ -15,7 +15,7 @@ This article introduces symbolic links and how they can help in handling files p
 
 Files and directories on your computer are located in a certain location or path that generally looks like this `somedirectory/file.csv`and form a hierarchical tree:
 ```{mermaid}
-%%| label: fig-Fig1
+%%| label: fig-File
 %%| fig-cap: |
 %%|   Simple file tree structure
 flowchart TB
@@ -26,7 +26,7 @@ flowchart TB
   dirB --> mycode
 ```
 
-Utilizing @fig-Fig1 In a coding context when working with mydata.csv we might reference the data file in the following manner:
+Utilizing @fig-File In a coding context when working with mydata.csv we might reference the data file in the following manner:
 ```{r}
 #| eval: false
 my_data <- read.csv("dir/dirA/dirA1/mydata.csv")
@@ -40,7 +40,7 @@ Where `"dir/dirA/dirA1/mydata.csv"` is the file path to that particular csv file
 One solution to reducing long and overly complicated file path is to create symbolic links. Symbolic links act as short cuts to the location of another file.
 
 ```{mermaid}
-%%| label: fig-Fig2
+%%| label: fig-FileLink
 %%| fig-cap: |
 %%|   Using symbolic links to create shorter path to mydata.csv
 flowchart TB
@@ -54,6 +54,46 @@ flowchart TB
   ghost --- |symbolic link| mydata.csv
 ```
 
-Looking at @fig-Fig2 we can see that mydata.csv file located at `"dir/dirA/dirA1/mydata.csv"` can also be access the same file with the path `"dir/dirB/mydata.csv"`
+Looking at @fig-FileLink we can see that mydata.csv file located at `"dir/dirA/dirA1/mydata.csv"` can also be access the same file with the path `"dir/dirB/mydata.csv"`
+```{r}
+#| eval: false
+mydata <- read.csv("dir/dirB/mydata.csv")
+```
 
 
+### Linking Directories
+In the previous example we saw creating a symbolic link with a single file the same process can be done with linking a directory.
+Consider the following diagram
+```{mermaid}
+%%| label: fig-Dir
+%%| fig-cap: |
+%%|   file structure with multiple data files 
+flowchart TB
+  dir --> dirA
+  dirA --> data1.csv
+  dirA --> data2.csv
+  dir --> dirB
+  dirB --> mycode
+
+```
+
+We can see dirA has multiple data files in it we can produce a link with dirA.
+
+```{mermaid}
+%%| label: fig-DirLink
+%%| fig-cap: |
+%%|   Symbolic Link to directory combined with rename 
+flowchart TB
+  dir --> dirA
+  dirA --> data1.csv & data2.csv
+  
+  dir --> dirB
+  dirB --> RawData(RawData)
+  style RawData stroke-dasharray: 5 5
+  RawData --- |symbolic link| dirA
+  RawData --> ghost1(data1.csv)
+  style ghost1 stroke-dasharray: 5 5
+  RawData --> ghost2(data2.csv)
+  style ghost2 stroke-dasharray: 5 5
+  dirB --> mycode
+```
