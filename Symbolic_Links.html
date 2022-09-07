@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.168">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Victor Feagins">
+<meta name="dcterms.date" content="2022-09-07">
+
+<title>Intro to Symbolic Links</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Symbolic_Links_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Symbolic_Links_files/libs/quarto-html/quarto.js"></script>
+<script src="Symbolic_Links_files/libs/quarto-html/popper.min.js"></script>
+<script src="Symbolic_Links_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Symbolic_Links_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Symbolic_Links_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Symbolic_Links_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Symbolic_Links_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Symbolic_Links_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Symbolic_Links_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Symbolic_Links_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="Symbolic_Links_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="Symbolic_Links_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#intro-symbolic-links" id="toc-intro-symbolic-links" class="nav-link" data-scroll-target="#intro-symbolic-links">Intro Symbolic Links</a>
+  <ul class="collapse">
+  <li><a href="#linking-directories" id="toc-linking-directories" class="nav-link" data-scroll-target="#linking-directories">Linking Directories</a></li>
+  </ul></li>
+  <li><a href="#how-to-do-a-symbolic-link" id="toc-how-to-do-a-symbolic-link" class="nav-link" data-scroll-target="#how-to-do-a-symbolic-link">How to do a symbolic link</a></li>
+  <li><a href="#one-use-case" id="toc-one-use-case" class="nav-link" data-scroll-target="#one-use-case">One Use Case</a>
+  <ul class="collapse">
+  <li><a href="#moving-data-without-moving-data" id="toc-moving-data-without-moving-data" class="nav-link" data-scroll-target="#moving-data-without-moving-data">Moving data without moving data</a></li>
+  </ul></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap Up</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Intro to Symbolic Links</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Victor Feagins 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            UW - Madsion, Education Psychology
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 7, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This article introduces symbolic links what they are and how to make them. Symbolic links is a useful tool to add to your tool belt to bridge different locations on a computer together.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Files and directories on your computer are located in a certain location or path that generally looks like this <code>somedirectory/file.csv</code>and form a hierarchical tree:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-File" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-1">flowchart TB
+  dir --&gt; dirA
+  dirA --&gt; dirA1
+  dirA1 --&gt; mydata.csv
+  dir --&gt; dirB
+  dirB --&gt; mycode
+</pre>
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Simple file tree structure</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Utilizing <a href="#fig-File">Figure&nbsp;1</a> In a coding context when working with mydata.csv we might reference the data file in the following manner:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dir/dirA/dirA1/mydata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Where <code>"dir/dirA/dirA1/mydata.csv"</code> is the file path to that particular csv file. The small issue with writing code in this fashion is that sometimes file paths can be very long and not robust for other users to utilize the code.</p>
+</section>
+<section id="intro-symbolic-links" class="level2">
+<h2 class="anchored" data-anchor-id="intro-symbolic-links">Intro Symbolic Links</h2>
+<p>One solution to reducing long and overly complicated file path is to create symbolic links. Symbolic links act as short cuts to the location of another file.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-FileLink" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-2">flowchart TB
+  dir --&gt; dirA
+  dirA --&gt; dirA1
+  dirA1 --&gt; mydata.csv
+  dir --&gt; dirB
+  dirB --&gt; ghost(mydata.csv)
+  style ghost stroke-dasharray: 5 5
+  dirB --&gt; mycode
+  ghost --- |symbolic link| mydata.csv
+</pre>
+<div id="mermaid-tooltip-2" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Using symbolic links to create shorter path to mydata.csv</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at <a href="#fig-FileLink">Figure&nbsp;2</a> we can see that mydata.csv file located at <code>"dir/dirA/dirA1/mydata.csv"</code> can also be access the same file with the path <code>"dir/dirB/mydata.csv"</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"dir/dirB/mydata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="linking-directories" class="level3">
+<h3 class="anchored" data-anchor-id="linking-directories">Linking Directories</h3>
+<p>In the previous example we saw creating a symbolic link with a single file the same process can be done with linking a directory. Consider the following diagram</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-Dir" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-3">flowchart TB
+  dir --&gt; dirA
+  dirA --&gt; data1.csv
+  dirA --&gt; data2.csv
+  dir --&gt; dirB
+  dirB --&gt; mycode
+
+</pre>
+<div id="mermaid-tooltip-3" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: file structure with multiple data files</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see dirA has multiple data files in it we can produce a link with dirA.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-DirLink" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-4">flowchart TB
+  dir --&gt; dirA
+  dirA --&gt; data1.csv &amp; data2.csv
+  
+  dir --&gt; dirB
+  dirB --&gt; RawData(RawData)
+  style RawData stroke-dasharray: 5 5
+  RawData --- |symbolic link| dirA
+  RawData --&gt; ghost1(data1.csv)
+  style ghost1 stroke-dasharray: 5 5
+  RawData --&gt; ghost2(data2.csv)
+  style ghost2 stroke-dasharray: 5 5
+  dirB --&gt; mycode
+</pre>
+<div id="mermaid-tooltip-4" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Symbolic Link to directory combined with rename</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In <a href="#fig-DirLink">Figure&nbsp;4</a> we see that the RawData directory is linked with dirA and hence shares the children files.</p>
+</section>
+</section>
+<section id="how-to-do-a-symbolic-link" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-do-a-symbolic-link">How to do a symbolic link</h2>
+<p>Doing a symbolic link will depend on your operating system:</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Unix/Mac</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Using <code>mklink</code> command in command terminal with administrator privileges</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mklink [<span class="sc">/</span>D] [destination] [source]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>\D</code> option to link a directory. By default links a file</li>
+<li>Destination: location of where the link will be</li>
+<li>Source: location where the file or directory being linked is</li>
+</ul>
+<section id="file-example" class="level3">
+<h3 class="anchored" data-anchor-id="file-example">File Example</h3>
+<p>This command would produce the results seen in <a href="#fig-FileLink">Figure&nbsp;2</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mklink <span class="st">"dir\dirB\mydata.csv"</span> <span class="st">"dir\dirA\dirA1\mydata.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="directory-example" class="level3">
+<h3 class="anchored" data-anchor-id="directory-example">Directory Example</h3>
+<p>This command would produce the results seen in <a href="#fig-DirLink">Figure&nbsp;4</a> note using the /D option to mean linking a directory</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mklink <span class="sc">/</span>D <span class="st">"dir\dirB\RawData"</span> <span class="st">"dir\dirA"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Typing in <code>mklink</code> in the windows command prompt will give you the documentation of the command</p>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Using <code>ln</code> command in the command terminal</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ln [<span class="sc">-</span>s] [source] [destination]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>-s</code> option will create a symbolic link</li>
+<li>Source: path of file or directory being linked</li>
+<li>Destination: location of where the link will be</li>
+</ul>
+<section id="file-example-1" class="level3">
+<h3 class="anchored" data-anchor-id="file-example-1">File Example</h3>
+<p>This command would produce the results seen in <a href="#fig-FileLink">Figure&nbsp;2</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ln <span class="sc">-</span>s dir<span class="sc">/</span>dirA<span class="sc">/</span>dirA1<span class="sc">/</span>mydata.csv dir<span class="sc">/</span>dirB<span class="sc">/</span>mydata.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="directory-example-1" class="level3">
+<h3 class="anchored" data-anchor-id="directory-example-1">Directory Example</h3>
+<p>This command would produce the results seen in <a href="#fig-DirLink">Figure&nbsp;4</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ln <span class="sc">-</span>s dir<span class="sc">/</span>dirA dir<span class="sc">/</span>dirB<span class="sc">/</span>RawData </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To see documentation of <code>ln</code> type <code>ln --help</code> in the command prompt</p>
+</section>
+</div>
+</div>
+</div>
+</section>
+<section id="one-use-case" class="level2">
+<h2 class="anchored" data-anchor-id="one-use-case">One Use Case</h2>
+<section id="moving-data-without-moving-data" class="level3">
+<h3 class="anchored" data-anchor-id="moving-data-without-moving-data">Moving data without moving data</h3>
+<p>If you have a lot of data files or the data is shared with different projects you may not want to copy or move the data to where your project is located.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-MovingFiles" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-5">flowchart TB
+  subgraph Datadir
+  datafiles
+  end
+  Datadir --- |symbolic link| ghost1 &amp; ghost2
+  subgraph p1[project 1]
+  code1[code]
+  ghost1(Datadir)
+  style ghost1 stroke-dasharray: 5 5
+  end
+  subgraph p2[project 2]
+  code2[code]
+  ghost2(Datadir)
+  style ghost2 stroke-dasharray: 5 5
+  end
+</pre>
+<div id="mermaid-tooltip-5" class="mermaidTooltip">
+
+</div>
+<p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Symbolic link to data directory</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This can be handy to not duplicate data or if for some reason there is a limitation in where your project can be and where your data can be stored which can happen in a shared computing space.</p>
+</section>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up">Wrap Up</h2>
+<p>In this article we introduced symbolic links and how they can be used to link to other directories and files. They can be used to simplify file paths as well as to essentially move directories and files without actually moving them.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
