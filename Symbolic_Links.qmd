@@ -1,7 +1,9 @@
 ---
-title: "Symbolic Links"
+title: "Intro to Symbolic Links"
 editor: source
-author: Victor Feagins
+author:
+  - name: "Victor Feagins"
+    affiliation: "UW - Madsion, Education Psychology" 
 date: 9/7/2022
 format: 
   html:
