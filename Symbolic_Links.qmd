@@ -1,7 +1,8 @@
 ---
 title: "Symbolic Links"
 editor: source
-author: Victor Feagins
+author: Victor Feagins PhD Student UW-Madison
+date: 9/7/2022
 format: 
   html:
     toc: true
@@ -161,7 +162,7 @@ ln -s dir/dirA dir/dirB/RawData
 To see documentation of `ln` type `ln --help` in the command prompt
 :::
 
-## Some Use Cases
+## One Use Case
 ### Moving data without moving data
 If you have a lot of data files or the data is shared with different projects you may not want to copy or move the data to where your project is located.
 
@@ -170,18 +171,29 @@ If you have a lot of data files or the data is shared with different projects yo
 %%| fig-cap: |
 %%|   Symbolic link to data directory
 flowchart TB
-  subgraph p2 [DataDir]
+  subgraph Datadir
   datafiles
   end
- 
-  subgraph p1 [Project]
-  direction TB
-  workingdir --> mycode & version_control & DataDir(DataDir)
-  
-  style DataDir stroke-dasharray: 5 5
+  Datadir --- |symbolic link| ghost1 & ghost2
+  subgraph p1[project 1]
+  code1[code]
+  ghost1(Datadir)
+  style ghost1 stroke-dasharray: 5 5
   end
-  DataDir ---|symbolic link| p2
+  subgraph p2[project 2]
+  code2[code]
+  ghost2(Datadir)
+  style ghost2 stroke-dasharray: 5 5
+  end
 ```
+
+This can be handy to not duplicate data or if for some reason there is a limitation in where your project can be and where your data can be stored which can happen in a shared computing space.
+
+## Wrap Up
+In this article we introduced symbolic links and how they can be used to link to other directories and files. They can be used to simplify file paths as well as to essentially move directories and files without actually moving them.
+
+
+
 
 
 
