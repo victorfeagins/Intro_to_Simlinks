@@ -10,7 +10,7 @@ format:
 
 ## Summary
 
-This article introduces symbolic links and how they can help in handling files particularly data files in conjunction with a coding environment.
+This article introduces symbolic links what they are and how to make them. Symbolic links is a useful tool to add to your tool belt to bridge different locations on a computer together.
 
 ## Introduction
 
