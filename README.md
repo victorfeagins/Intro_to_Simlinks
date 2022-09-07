@@ -1,3 +1,3 @@
-# Learning_Content_Feagins
+# Intro to Symbolic Links 
 
-Some blogs type things I write
+A article I wrote to introduce symbolic links
